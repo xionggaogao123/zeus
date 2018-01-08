@@ -36,6 +36,11 @@ public class SubSeller extends BaseModel{
     private String password;
 
     /**
+     * 主账户用户 id
+     */
+    private Long masterUserId;
+
+    /**
      * 角色id
      */
     private Long roleId;

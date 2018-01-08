@@ -1,5 +1,6 @@
 package com.zeus.auth.api.service;
 
+import com.zeus.auth.api.criteria.OperatorCriteria;
 import com.zeus.auth.api.model.Operator;
 import com.zeus.common.model.Paging;
 import com.zeus.common.model.Response;
@@ -17,6 +18,11 @@ public interface OperatorReadService {
     Response<Operator> findByUserId(Long userId);
 
 
-    Response<Paging<Operator>> paging();
+    /**
+     * 分页查询 运营信息
+     * @param criteria 查询条件
+     * @return 分页数据
+     */
+    Response<Paging<Operator>> paging(OperatorCriteria criteria);
 
 }
