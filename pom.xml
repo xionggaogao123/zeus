@@ -20,6 +20,8 @@
         <module>zeus-test</module>
         <module>zeus-community</module>
         <module>zeus-community-api</module>
+        <module>zeus-auth</module>
+        <module>zeus-auth-api</module>
     </modules>
 
 

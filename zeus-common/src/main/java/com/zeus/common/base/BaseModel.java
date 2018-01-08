@@ -1,15 +1,27 @@
 package com.zeus.common.base;
 
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
 public abstract class BaseModel implements Serializable{
 
+    /**
+     * 主键id
+     */
     private Long id;
 
-    private Date createTime;
+    /**
+     * 创建时间
+     */
+    private Date createAt;
 
-    private Date updateTime;
+    /**
+     * 更新时间
+     */
+    private Date updateAt;
 
 }
