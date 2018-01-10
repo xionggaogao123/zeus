@@ -6,8 +6,11 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Data
 public abstract class BaseModel implements Serializable{
+
+    private static final long serialVersionUID = 1935079103035923219L;
 
     /**
      * 主键id
