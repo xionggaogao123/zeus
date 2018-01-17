@@ -7,6 +7,8 @@ package com.zeus.common.exception;
  */
 public class ValidateException extends RuntimeException{
 
+    private static final long serialVersionUID = -8381089107433026015L;
+
     private int status = 500;
 
     private String message = "unknown exception";
