@@ -22,7 +22,7 @@ public class StudentService {
     }
 
     public Student findById(Long id) {
-        Student student = studentDao.findById(id);
+        Student student = studentDao.selectById(id);
         if (student == null) {
             return null;
         }

@@ -12,4 +12,14 @@
     <artifactId>zeus-item</artifactId>
 
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.zeus</groupId>
+            <artifactId>zeus-item-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
 </project>

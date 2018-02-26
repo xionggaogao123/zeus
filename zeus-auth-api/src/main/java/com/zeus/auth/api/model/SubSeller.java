@@ -3,7 +3,7 @@ package com.zeus.auth.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zeus.common.base.BaseModel;
+import com.zeus.common.base.BaseDomain;
 import com.zeus.common.constants.JacksonType;
 import com.zeus.common.util.JsonMapper;
 import io.swagger.annotations.ApiModel;
@@ -16,7 +16,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel("商家子账户")
 @Data
-public class SubSeller extends BaseModel{
+public class SubSeller extends BaseDomain {
 
     private static final ObjectMapper OBJECT_MAPPER = JsonMapper.nonEmptyMapper().getMapper();
 

@@ -36,11 +36,6 @@
                 <artifactId>jackson-datatype-guava</artifactId>
             </dependency>
 
-            <dependency>
-                <groupId>io.terminus.boot.rpc</groupId>
-                <artifactId>rpc-common</artifactId>
-                <version>1.0.2.RELEASE</version>
-            </dependency>
 
         </dependencies>
 

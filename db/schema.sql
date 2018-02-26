@@ -1,4 +1,22 @@
 
+## user 模块  start ###
+
+CREATE TABLE `zeus_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `user_name` VARCHAR(64) DEFAULT NULL  COMMENT '用户名称',
+  `tel_phone` VARCHAR(32) DEFAULT NULL  COMMENT '电话号码',
+  `mail` VARCHAR(32) DEFAULT NULL COMMENT '邮箱',
+  `type` TINYINT(4) DEFAULT NULL COMMENT '用户类型',
+  `status` TINYINT(4) DEFAULT NULL  COMMENT '用户状态',
+  `avatar_url` VARCHAR(32) DEFAULT NULL COMMENT '用户头像',
+  `password` VARCHAR(64) DEFAULT NULL  COMMENT '登录密码',
+  `gender` VARCHAR(11) DEFAULT NULL COMMENT '用户性别',
+  `birthday` datetime DEFAULT NULL COMMENT '用户出生日期',
+  `address` VARCHAR(64) DEFAULT NULL COMMENT '用户地址',
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+
+
 ### spider 模块  start ###
 CREATE TABLE `spider_article`(
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',

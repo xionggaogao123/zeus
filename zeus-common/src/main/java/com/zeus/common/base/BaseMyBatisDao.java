@@ -2,6 +2,7 @@ package com.zeus.common.base;
 
 import com.google.common.collect.Maps;
 import com.zeus.common.model.Paging;
+import com.zeus.common.model.PagingCriteria;
 import com.zeus.common.util.JsonMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.util.CollectionUtils;
@@ -18,12 +19,12 @@ public abstract class BaseMyBatisDao<T> {
     /**
      * 添加
      */
-    protected static final String CREATE = "create";
+    protected static final String INSERT = "insert";
 
     /**
      * 批量添加
      */
-    protected static final String CREATES = "creates";
+    protected static final String BATCH_INSERT = "batchInsert";
 
     /**
      * 删除
@@ -33,7 +34,7 @@ public abstract class BaseMyBatisDao<T> {
     /**
      * 批量删除
      */
-    protected static final String DELETES = "deletes";
+    protected static final String BATCH_DELETE = "batchDelete";
 
     /**
      * 更新
@@ -43,27 +44,17 @@ public abstract class BaseMyBatisDao<T> {
     /**
      * 单个主键查询对象
      */
-    protected static final String LOAD = "load";
+    protected static final String SELECT_BY_ID = "selectById";
 
     /**
      * 主键列表查询对象列表
      */
-    protected static final String LOADS = "loads";
-
-    /**
-     * 单个主键查询对象
-     */
-    protected static final String FIND_BY_ID = "findById";
-
-    /**
-     * 主键列表查询对象列表
-     */
-    protected static final String FIND_BY_IDS = "findByIds";
+    protected static final String SELECT_BY_IDS = "selectByIds";
 
     /**
      * 列表条件查询
      */
-    protected static final String LIST = "list";
+    protected static final String SELECT_LIST = "selectList";
 
     /**
      * 计数
@@ -73,26 +64,31 @@ public abstract class BaseMyBatisDao<T> {
     /**
      * 分页查询
      */
-    protected static final String PAGING = "paging";
+    protected static final String SELECT_PAGING = "selectPaging";
+
 
     public final String nameSpace;
 
 
-    public BaseMyBatisDao(){
+    @SuppressWarnings("unchecked")
+    public BaseMyBatisDao() {
         if (getClass().getGenericSuperclass() instanceof ParameterizedType) {
-            nameSpace = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]).getSimpleName();
+            nameSpace = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+                    .getActualTypeArguments()[0]).getSimpleName();
         } else {
             //解决cglib实现aop时转换异常
-            nameSpace = ((Class<T>) ((ParameterizedType) getClass().getSuperclass().getGenericSuperclass()).getActualTypeArguments()[0]).getSimpleName();
+            nameSpace = ((Class<T>) ((ParameterizedType) getClass().getSuperclass().getGenericSuperclass())
+                    .getActualTypeArguments()[0]).getSimpleName();
         }
     }
 
     /**
      * sql语句的id
+     *
      * @param id sql id
      * @return "nameSpace.id"
      */
-    protected String sqlId(String id){
+    protected String sqlId(String id) {
         return nameSpace + "." + id;
     }
 
@@ -103,200 +99,175 @@ public abstract class BaseMyBatisDao<T> {
 
     /**
      * 添加对象
+     *
      * @param t 范型对象
      * @return 增加记录数
      */
-    public Integer create(T t){
-        return sqlSession.insert(sqlId(CREATE), t);
+    public Integer insert(T t) {
+        return sqlSession.insert(sqlId(INSERT), t);
     }
 
     /**
      * 批量添加对象
+     *
      * @param ts 范型对象
      * @return 增加记录数
      */
-    public Integer creates(List<T> ts){
-        return sqlSession.insert(sqlId(CREATES), ts);
+    public Integer batchInsert(List<T> ts) {
+        return sqlSession.insert(sqlId(BATCH_INSERT), ts);
     }
 
     /**
      * 批量添加对象
+     *
      * @param t0 第一个范型对象
      * @param t1 第一个范型对象
      * @param tn 第N个范型对象
      * @return 增加记录数
      */
-    public Integer creates(T t0, T t1, T... tn){
-        return sqlSession.insert(sqlId(CREATES), Arrays.asList(t0, t1, tn));
+    @SuppressWarnings("unchecked")
+    public Integer batchInsert(T t0, T t1, T... tn) {
+        return sqlSession.insert(sqlId(BATCH_INSERT), Arrays.asList(t0, t1, tn));
     }
 
     /**
      * 删除
+     *
      * @param id 主键
      * @return 删除记录数
      */
-    public Integer delete(Long id){
-        return sqlSession.delete(sqlId(DELETE), id) ;
+    public Integer delete(Long id) {
+        return sqlSession.delete(sqlId(DELETE), id);
     }
 
     /**
      * 批量删除
+     *
      * @param ids 主键列表
      * @return 删除记录数
      */
-    public Integer deletes(List<Long> ids){
-        return sqlSession.delete(sqlId(DELETES), ids);
+    public Integer batchDelete(List<Long> ids) {
+        return sqlSession.delete(sqlId(BATCH_DELETE), ids);
     }
 
     /**
      * 批量删除
+     *
      * @param id0 第一个id
      * @param id1 第二个id
      * @param idn 第N个id
      * @return 删除记录数
      */
-    public Integer deletes(Long id0, Long id1, Long... idn){
-        return sqlSession.delete(sqlId(DELETES), Arrays.asList(id0, id1, idn));
+    public Integer batchDelete(Long id0, Long id1, Long... idn) {
+        return sqlSession.delete(sqlId(BATCH_DELETE), Arrays.asList(id0, id1, idn));
     }
 
     /**
      * 更新对象
+     *
      * @param t 范型对象
      * @return 更新记录数
      */
-    public Integer update(T t){
-        return sqlSession.update(sqlId(UPDATE), t) ;
+    public Integer update(T t) {
+        return sqlSession.update(sqlId(UPDATE), t);
     }
 
 
     /**
      * 查询单个对象
+     *
      * @param id 主键
      * @return 对象
      */
-    public T load(Integer id){
-        return load(Long.valueOf(id));
+    public T selectById(Integer id) {
+        return selectById(Long.valueOf(id));
     }
 
     /**
      * 查询单个对象
+     *
      * @param id 主键
      * @return 对象
      */
-    public T load(Long id){
-        return sqlSession.selectOne(sqlId(LOAD), id);
+    public T selectById(Long id) {
+        return sqlSession.selectOne(sqlId(SELECT_BY_ID), id);
     }
 
     /**
      * 批量删除
+     *
      * @param ids 主键列表
      * @return 删除记录数
      */
-    public List<T> loads(List<Long> ids){
+    public List<T> selectByIds(List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return Collections.emptyList();
         }
-        return sqlSession.selectList(sqlId(LOADS), ids);
+        return sqlSession.selectList(sqlId(SELECT_BY_IDS), ids);
     }
 
     /**
      * 查询对象列表
+     *
      * @param id0 第一个id
      * @param id1 第二个id
      * @param idn 第N个id
      * @return 对象列表
      */
-    public List<T> loads(Long id0, Long id1, Long... idn){
-        return sqlSession.selectList(sqlId(LOADS), Arrays.asList(id0, id1, idn));
-    }
-
-
-    /**
-     * 查询单个对象
-     * @param id 主键
-     * @return 对象
-     */
-    public T findById(Integer id){
-        return findById(Long.valueOf(id));
-    }
-
-    /**
-     * 查询单个对象
-     * @param id 主键
-     * @return 对象
-     */
-    public T findById(Long id){
-        return sqlSession.selectOne(sqlId(FIND_BY_ID), id);
-    }
-
-    /**
-     * 批量删除
-     * @param ids 主键列表
-     * @return 删除记录数
-     */
-    public List<T> findByIds(List<Long> ids){
-        if (CollectionUtils.isEmpty(ids)) {
-            return Collections.emptyList();
-        }
-        return sqlSession.selectList(sqlId(FIND_BY_IDS), ids);
-    }
-
-    /**
-     * 查询对象列表
-     * @param id0 第一个id
-     * @param id1 第二个id
-     * @param idn 第N个id
-     * @return 对象列表
-     */
-    public List<T> findByIds(Long id0, Long id1, Long... idn){
-        return sqlSession.selectList(sqlId(FIND_BY_IDS), Arrays.asList(id0, id1, idn));
+    public List<T> selectByIds(Long id0, Long id1, Long... idn) {
+        return sqlSession.selectList(sqlId(SELECT_BY_IDS), Arrays.asList(id0, id1, idn));
     }
 
     /**
      * 查询所有对象列表
+     *
      * @return 所有对象列表
      */
-    public List<T> listAll(){
-        return list((T)null);
+    public List<T> selectListAll() {
+        return selectList((T) null);
     }
 
     /**
      * 查询对象列表
+     *
      * @param t 范型对象
      * @return 查询到的对象列表
      */
-    public List<T> list(T t){
-        return sqlSession.selectList(sqlId(LIST), t);
+    public List<T> selectList(T t) {
+        return sqlSession.selectList(sqlId(SELECT_LIST), t);
     }
 
     /**
      * 查询对象列表
+     *
      * @param criteria Map查询条件
      * @return 查询到的对象列表
      */
-    public List<T> list(Map<?, ?> criteria){
-        return sqlSession.selectList(sqlId(LIST), criteria);
+    public List<T> selectList(Map<?, ?> criteria) {
+        return sqlSession.selectList(sqlId(SELECT_LIST), criteria);
     }
 
     /**
      * 查询分页对象
+     *
      * @param offset 起始偏移
-     * @param limit 分页大小
+     * @param limit  分页大小
      * @return 查询到的分页对象
      */
-    public Paging<T> paging(Integer offset, Integer limit){
-        return paging(offset, limit, new HashMap<String, Object>());
+    public Paging<T> selectPaging(Integer offset, Integer limit) {
+        return selectPaging(offset, limit, new HashMap<String, Object>());
     }
 
     /**
      * 查询分页对象
-     * @param offset 起始偏移
-     * @param limit 分页大小
+     *
+     * @param offset   起始偏移
+     * @param limit    分页大小
      * @param criteria 范型对象, 即查询条件
      * @return 查询到的分页对象
      */
     @SuppressWarnings("unchecked")
-    public Paging<T> paging(Integer offset, Integer limit, T criteria){
+    public Paging<T> selectPaging(Integer offset, Integer limit, T criteria) {
         Map<String, Object> params = Maps.newHashMap();
         if (criteria != null) {
             Map<String, Object> objMap = JsonMapper.nonDefaultMapper().getMapper().convertValue(criteria, Map.class);
@@ -304,56 +275,56 @@ public abstract class BaseMyBatisDao<T> {
         }
         // get total count
         Long total = sqlSession.selectOne(sqlId(COUNT), criteria);
-        if (total <= 0){
+        if (total <= 0) {
             return new Paging<T>(0L, Collections.<T>emptyList());
         }
         params.put("offset", offset);
         params.put("limit", limit);
         // get data
-        List<T> datas = sqlSession.selectList(sqlId(PAGING), params);
+        List<T> datas = sqlSession.selectList(sqlId(SELECT_PAGING), params);
         return new Paging<T>(total, datas);
     }
 
     /**
      * 查询分页对象
-     * @param offset 起始偏移
-     * @param limit 分页大小
+     *
+     * @param offset   起始偏移
+     * @param limit    分页大小
      * @param criteria Map查询条件
      * @return 查询到的分页对象
      */
-    public Paging<T> paging(Integer offset, Integer limit, Map<String, Object> criteria) {
+    public Paging<T> selectPaging(Integer offset, Integer limit, Map<String, Object> criteria) {
         if (criteria == null) {
             criteria = Maps.newHashMap();
         }
         // get total count
         Long total = sqlSession.selectOne(sqlId(COUNT), criteria);
-        if (total <= 0){
+        if (total <= 0) {
             return new Paging<T>(0L, Collections.<T>emptyList());
         }
         criteria.put("offset", offset);
         criteria.put("limit", limit);
         // get data
-        List<T> datas = sqlSession.selectList(sqlId(PAGING), criteria);
+        List<T> datas = sqlSession.selectList(sqlId(SELECT_PAGING), criteria);
         return new Paging<T>(total, datas);
     }
 
     /**
      * 分页查询，offset， limit都丢在map里面
+     *
      * @param criteria 所有查询参数
      * @return 查询到的分页对象
      */
-    public Paging<T> paging(Map<String, Object> criteria) {
+    public Paging<T> selectPaging(PagingCriteria criteria) {
         //如果查询条件为空
-        if (criteria == null) {
-            criteria = Maps.newHashMap();
-        }
+        Map<String, Object> param = criteria.toMap();
         // get total count
-        Long total = sqlSession.selectOne(sqlId(COUNT), criteria);
-        if (total <= 0){
+        Long total = sqlSession.selectOne(sqlId(COUNT), param);
+        if (total <= 0) {
             return new Paging<T>(0L, Collections.<T>emptyList());
         }
         // get data
-        List<T> datas = sqlSession.selectList(sqlId(PAGING), criteria);
+        List<T> datas = sqlSession.selectList(sqlId(SELECT_PAGING), param);
         return new Paging<T>(total, datas);
     }
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeus.auth.api.service.CustomRole;
-import com.zeus.common.base.BaseModel;
+import com.zeus.common.base.BaseDomain;
 import com.zeus.common.constants.JacksonType;
 import com.zeus.common.util.JsonMapper;
 import io.swagger.annotations.ApiModel;
@@ -21,7 +21,7 @@ import java.util.Objects;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel("商家子账户 动态角色")
 @Data
-public class SubSellerRole extends BaseModel implements CustomRole{
+public class SubSellerRole extends BaseDomain implements CustomRole{
 
     private static final ObjectMapper OBJECT_MAPPER = JsonMapper.nonEmptyMapper().getMapper();
 

@@ -29,7 +29,7 @@ public class SpiderArticleWriteServiceImpl implements SpiderArticleWriteService 
     @Override
     public Response<Long> create(SpiderArticle spiderArticle) {
         try {
-            spiderArticleDao.create(spiderArticle);
+            spiderArticleDao.insert(spiderArticle);
             return Response.ok(spiderArticle.getId());
         } catch (Exception e) {
             log.error("fail create spider article with article={}, cause={}", spiderArticle,

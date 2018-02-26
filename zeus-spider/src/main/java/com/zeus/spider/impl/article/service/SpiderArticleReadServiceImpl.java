@@ -30,7 +30,7 @@ public class SpiderArticleReadServiceImpl implements SpiderArticleReadService {
     @Override
     public Response<SpiderArticle> findById(Long id) {
         try {
-            return Response.ok(spiderArticleDao.findById(id));
+            return Response.ok(spiderArticleDao.selectById(id));
         } catch (Exception e) {
             log.error("fail find spider article with id={}, cause={}", id, Throwables.getStackTraceAsString(e));
             return Response.fail("find.spider.article.fail");
@@ -40,7 +40,7 @@ public class SpiderArticleReadServiceImpl implements SpiderArticleReadService {
     @Override
     public Response<Paging<SpiderArticle>> paging(SpiderArticleCriteria criteria) {
         try {
-            return Response.ok(spiderArticleDao.paging(criteria.toMap()));
+            return Response.ok(spiderArticleDao.selectPaging(criteria));
         } catch (Exception e) {
             log.error("fail paging spider article with criteria={}, cause={}", criteria,
                     Throwables.getStackTraceAsString(e));

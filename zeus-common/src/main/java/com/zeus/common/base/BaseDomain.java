@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 @Data
-public abstract class BaseModel implements Serializable{
+public abstract class BaseDomain implements Serializable{
 
     private static final long serialVersionUID = 1935079103035923219L;
 
@@ -20,11 +20,11 @@ public abstract class BaseModel implements Serializable{
     /**
      * 创建时间
      */
-    private Date createAt;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date updateAt;
+    private Date updateTime;
 
 }

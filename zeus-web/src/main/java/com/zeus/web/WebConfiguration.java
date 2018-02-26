@@ -2,11 +2,15 @@ package com.zeus.web;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.EventBus;
 import com.zeus.web.properties.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.concurrent.Executors;
 
 /**
  * @author keven
@@ -17,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableAutoConfiguration
 @EnableScheduling
 @Configuration
-@ComponentScan({"com.zeus.web"})
+@ComponentScan({"com.zeus"})
 @Import(RedisAutoConfiguration.class)
 public class WebConfiguration {
 
@@ -27,6 +31,11 @@ public class WebConfiguration {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return objectMapper;
+    }
+
+    @Bean
+    public EventBus eventBus() {
+        return new AsyncEventBus(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2));
     }
 
 }
