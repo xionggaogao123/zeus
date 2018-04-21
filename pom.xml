@@ -22,10 +22,7 @@
         <module>zeus-community-api</module>
         <module>zeus-auth</module>
         <module>zeus-auth-api</module>
-        <module>zeus-spider</module>
-        <module>zeus-spider-api</module>
-        <module>zeus-publish</module>
-        <module>zeus-publish-api</module>
+        <module>zeus-admin</module>
     </modules>
 
 
@@ -177,6 +174,18 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.28</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.cage</groupId>
+            <artifactId>cage</artifactId>
+            <version>1.0</version>
         </dependency>
 
 

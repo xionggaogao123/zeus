@@ -16,7 +16,6 @@ public abstract class BaseCriteria {
     public BaseCriteria() {
 
     }
-
     public Map<String, Object> toMap() {
         return (Map)MAPPER.convertValue(this, Map.class);
     }

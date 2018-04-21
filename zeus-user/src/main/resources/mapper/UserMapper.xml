@@ -3,7 +3,7 @@
 <mapper namespace="User">
     <resultMap id="UserMap" type="User">
         <id property="id" column="id"/>
-        <result property="userName" column="user_name"/>
+        <result property="username" column="username"/>
         <result property="telPhone" column="tel_phone"/>
         <result property="mail" column="mail"/>
         <result property="type" column="type"/>
@@ -27,18 +27,18 @@
     </sql>
 
     <sql id="columns_exclude_id">
-        `user_name`, `tel_phone`, `mail`, `type`, `status`, `avatar_url`, `password`, `gender`, `birthday`, `address`,
+        `username`, `tel_phone`, `mail`, `type`, `status`, `avatar_url`, `password`, `gender`, `birthday`, `address`,
         create_time, update_time
     </sql>
 
     <sql id="values_exclude_id">
-        #{userName}, #{telPhone}, #{mail}, #{type}, #{status}, #{avatarUrl}, #{password}, #{gender}, #{birthday},
+        #{username}, #{telPhone}, #{mail}, #{type}, #{status}, #{avatarUrl}, #{password}, #{gender}, #{birthday},
         #{address}, now(), now()
     </sql>
 
     <sql id="criteria">
         <where>
-            <if test="userName != null">AND `user_name` = #{userName}</if>
+            <if test="username != null">AND `username` = #{username}</if>
             <if test="telPhone != null">AND `tel_phone` = #{telPhone}</if>
             <if test="mail != null">AND `mail` = #{mail}</if>
             <if test="type != null">AND `type` = #{type}</if>
@@ -67,7 +67,7 @@
         (<include refid="columns_exclude_id"/>)
         VALUES
         <foreach collection="list" item="i" index="index" separator=",">
-            (#{i.userName}, #{i.telPhone}, #{i.mail}, #{i.type}, #{i.status}, #{i.avatarUrl}, #{i.password},
+            (#{i.username}, #{i.telPhone}, #{i.mail}, #{i.type}, #{i.status}, #{i.avatarUrl}, #{i.password},
             #{i.gender}, #{i.birthday}, #{i.address}, now(), now())
         </foreach>
     </insert>
@@ -95,7 +95,7 @@
         UPDATE
         <include refid="table_name"/>
         <set>
-            <if test="userName != null">`user_name` = #{userName},</if>
+            <if test="username != null">`username` = #{username},</if>
             <if test="telPhone != null">`tel_phone` = #{telPhone},</if>
             <if test="mail != null">`mail` = #{mail},</if>
             <if test="type != null">`type` = #{type},</if>
